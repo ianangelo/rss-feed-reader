@@ -1,2 +1,2 @@
 # rss-feed-reader
-SpringBoot - Maven - H2 - ROME - Swagger 2 
+SpringBoot - Maven - Spring Data JPA - H2 - ROME - Swagger 2 
