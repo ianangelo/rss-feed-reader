@@ -28,10 +28,14 @@ public class FeedItem implements Serializable{
 	
 	private String link;
 	
-	private String description;
+	private String description1;
 	
-	//private List<String> enclosures;
+	private String description2;
+	
+	private String description3;
 	
 	private Date updatedDate;
+	
+	private String zonedDateRetrieved;
 
 }

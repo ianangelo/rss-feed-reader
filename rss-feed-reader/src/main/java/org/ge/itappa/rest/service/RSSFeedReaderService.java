@@ -8,8 +8,6 @@ import java.util.List;
 import org.ge.itappa.dao.RSSFeedReaderDao;
 import org.ge.itappa.domain.FeedItem;
 import org.ge.itappa.util.RSSFeedReaderUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +27,6 @@ public class RSSFeedReaderService {
 	@Autowired
 	private RSSFeedReaderDao dao;
 	
-	private static final Logger log = LoggerFactory.getLogger(RSSFeedReaderService.class);
-	
 	private final String rssSource = "https://www.nasa.gov/rss/dyn/mission_pages/kepler/news/kepler-newsandfeatures-RSS.rss";
 	
 	public ResponseEntity<List<FeedItem>> getFeedList(){
@@ -40,8 +36,8 @@ public class RSSFeedReaderService {
 			@SuppressWarnings("unchecked")   
 			List<FeedItem> items = util.map(feed.getEntries());
 			addFeed(items);
-			//items.forEach(consumer);
-			return new ResponseEntity<>(items, HttpStatus.OK);
+			
+			return new ResponseEntity<>(dao.getFeed(), HttpStatus.OK);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -50,28 +46,12 @@ public class RSSFeedReaderService {
 	}
 
 	private void addFeed(List<FeedItem> items) {
-		
-/*
-		items.forEach(new Consumer<FeedItem>() {
-			public void accept(FeedItem item) {
-				if (dao.addFeedItem(item)) {
-					log.info("RSSFeedReaderService.addFeed() New feed item was added");
-				}
-				else {
-					log.error("RSSFeedReaderService.addFeed() Error on adding item "+ item.getId());
-				}
-			}
-		}); */
-		
-		for (FeedItem item : items) {
-			if (dao.addFeedItem(item)) {
-				log.info("RSSFeedReaderService.addFeed() New feed item was added");
-			}
-			else {
-				log.error("RSSFeedReaderService.addFeed() Error on adding item "+ item.getId());
-			}
-				
-		}
+		items.forEach(
+				item -> {
+					if (dao.getFeedByTitleAndUri(item.getLink(), item.getTitle()).isEmpty()) {
+						dao.addFeedItem(item);
+					} 
+				});
 	}
 
 	private SyndFeed readRss() throws MalformedURLException, FeedException, IOException {

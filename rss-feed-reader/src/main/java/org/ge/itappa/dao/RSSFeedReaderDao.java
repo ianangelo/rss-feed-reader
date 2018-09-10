@@ -23,5 +23,9 @@ public class RSSFeedReaderDao {
 		else
 			return false;
 	}
+	
+	public List<FeedItem> getFeedByTitleAndUri(String uri, String title) {
+		return repository.findByLinkAndTitle(uri, title);
+	}
 
 }
