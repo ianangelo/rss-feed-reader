@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.ge.itappa.dao.RSSFeedReaderDao;
 import org.ge.itappa.domain.FeedItem;
@@ -11,6 +12,7 @@ import org.ge.itappa.util.RSSFeedReaderUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -61,5 +63,15 @@ public class RSSFeedReaderService {
 		SyndFeed feed = input.build(new XmlReader(url));
 		return feed;
 	}
+	
+	 @Async
+	 public void callRssReader() throws InterruptedException {
+		 try {
+			SyndFeed feed = readRss();
+			Thread.sleep(1000L); 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	 }
 
 }
