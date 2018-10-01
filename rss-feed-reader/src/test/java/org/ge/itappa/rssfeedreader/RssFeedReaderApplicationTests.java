@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -38,8 +39,9 @@ public class RssFeedReaderApplicationTests {
 		Response response = RestAssured.when().get("/rss");
 		String jsonResponse = response.asString();
 		log.info(jsonResponse);
-		
+		log.info(response.contentType());
 		assertNotNull(jsonResponse);
+		assertEquals(MediaType.APPLICATION_JSON_UTF8_VALUE, response.contentType());
 		assertEquals("Expected: 200 HTTP Status", HttpStatus.OK.value(), response.statusCode());
 		
 	}

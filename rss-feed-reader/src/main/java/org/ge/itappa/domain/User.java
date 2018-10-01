@@ -17,9 +17,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name="item")
+@Table(name="user")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class FeedItem implements Serializable{
+public class User implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -27,18 +27,14 @@ public class FeedItem implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	private String title;
+	private String firstname;
 	
-	private String link;
+	private String lastname;
 	
-	private String description1;
+	private String username;
 	
-	private String description2;
+	private String password;
 	
-	private String description3;
 	
-	private Date updatedDate;
-	
-	private String zonedDateRetrieved;
 
 }

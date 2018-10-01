@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class RSSFeedReaderController {
+public class UserRegistrationController {
 	
 	@Autowired
 	private RSSFeedReaderService readerService;
 	
 	@RequestMapping(
-			value = "/rss",
+			value = "/register",
 			method = RequestMethod.GET,
 			produces = { "application/json" }
 			)
@@ -26,7 +26,4 @@ public class RSSFeedReaderController {
 		return readerService.getFeedList();
 	}
 	
-//	@RequestMapping(
-//			value = "/")
-
 }

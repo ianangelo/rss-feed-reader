@@ -20,9 +20,9 @@ import com.sun.syndication.feed.synd.SyndEntryImpl;
 @Component
 public class RSSFeedReaderUtils {
 	
-	private final String REGEX_PATTERN = "[^.!?\\\\s][^.!?]*(?:[.!?](?!['\\\"]?\\\\s|$)[^.!?]*)*[.!?]?['\\\"]?(?=\\\\s|$)";
-	private final int TEXT_LIMIT = 250;
-	private final int TEXT_START_INDEX = 0;
+	private static final String REGEX_PATTERN = "[^.!?\\\\s][^.!?]*(?:[.!?](?!['\\\"]?\\\\s|$)[^.!?]*)*[.!?]?['\\\"]?(?=\\\\s|$)";
+	private static final int TEXT_LIMIT = 250;
+	private static final int TEXT_START_INDEX = 0;
 	
 	public List<FeedItem> map(List<SyndEntryImpl> entries) {
 		return entries.stream()
@@ -38,7 +38,7 @@ public class RSSFeedReaderUtils {
 		item.setLink(entry.getLink());
 		item.setUpdatedDate(entry.getPublishedDate());
 		item.setZonedDateRetrieved(getCurrentLocalDate());
-		mapDescription(item, splitToSentence(entry.getDescription().getValue()));
+		item = mapDescription(item, splitToSentence(entry.getDescription().getValue()));
 		
 		return item;
 	}
@@ -55,9 +55,9 @@ public class RSSFeedReaderUtils {
 		return descLines;
 	}
 	
-	public void mapDescription(FeedItem item, List<String> desc) {
-		// normalize this:
-		if (desc.size() > 0) {
+	public FeedItem mapDescription(FeedItem item, List<String> desc) {
+		
+		if (!desc.isEmpty()) {
 			item.setDescription1(desc.get(0));
 		}
 		
@@ -69,6 +69,7 @@ public class RSSFeedReaderUtils {
 			item.setDescription3(desc.get(2));
 		}
 		
+		return item;
 	}
 	
 	public String getCurrentLocalDate () {
@@ -78,7 +79,7 @@ public class RSSFeedReaderUtils {
 			    .appendFraction(ChronoField.MILLI_OF_SECOND, 3, 3, false)
 			    .appendLiteral('Z')
 			    .toFormatter();
-		LocalDateTime.now().format(formatter);
+		
 		ZonedDateTime zonedDateTime = LocalDateTime.now().atZone(ZoneId.of("Europe/Tallinn"));
 		return zonedDateTime.format(formatter);
 	}

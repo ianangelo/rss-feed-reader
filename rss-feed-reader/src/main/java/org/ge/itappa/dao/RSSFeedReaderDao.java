@@ -17,11 +17,8 @@ public class RSSFeedReaderDao {
 		return repository.findAll();
 	}
 	 
-	public Boolean addFeedItem(FeedItem item) {
-		if (repository.save(item) != null)
-			return true;
-		else
-			return false;
+	public void addFeedItem(FeedItem item) {
+		repository.save(item);
 	}
 	
 	public List<FeedItem> getFeedByTitleAndUri(String uri, String title) {
