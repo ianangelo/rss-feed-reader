@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: rss-feed-reader
 Implementation-Version: 1.0
-Built-By: ianangelo
+Built-By: tapia
 Implementation-Vendor-Id: org.ge.itappa
-Build-Jdk: 1.8.0_161
+Build-Jdk: 1.8.0_152
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
  ot-starter-parent/rss-feed-reader
 Created-By: Maven Integration for Eclipse
