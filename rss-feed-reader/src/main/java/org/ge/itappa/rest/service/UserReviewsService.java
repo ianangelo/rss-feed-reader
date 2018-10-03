@@ -19,7 +19,11 @@ public class UserReviewsService {
 	@Autowired
 	private UserReviewsDao dao;
 	
-	
+	/**
+	 * Retrieve all posted reviews
+	 *
+	 * @return
+	 */
 	public ResponseEntity<List<UserReviews>> getUserReviews(){
 		
 		try {
@@ -32,6 +36,12 @@ public class UserReviewsService {
 		}
 	}
 
+	/**
+	 * Retrieve all posted reviews
+	 *
+	 * @param UserReviews
+	 * @return
+	 */
 	public HttpStatus postReview(UserReviews review) {
 
 		try {

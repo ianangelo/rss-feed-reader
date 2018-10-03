@@ -3,9 +3,12 @@ package org.ge.itappa.rest.service;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+
 import org.ge.itappa.dao.RSSFeedReaderDao;
 import org.ge.itappa.domain.FeedItem;
 import org.ge.itappa.util.RSSFeedReaderUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +28,14 @@ public class RSSFeedReaderService {
 	@Autowired
 	private RSSFeedReaderDao dao;
 	
+	private static final Logger log = LoggerFactory.getLogger(RSSFeedReaderService.class);
 	private static final String RSS_SOURCE = "https://www.nasa.gov/rss/dyn/mission_pages/kepler/news/kepler-newsandfeatures-RSS.rss";
 	
+	/**
+	 * Retrieve all feed item from database
+	 *
+	 * @return
+	 */
 	public ResponseEntity<List<FeedItem>> getFeedList(){
 		
 		try {
@@ -38,10 +47,17 @@ public class RSSFeedReaderService {
 			return new ResponseEntity<>(dao.getFeed(), HttpStatus.OK);
 			
 		} catch (Exception e) {
+			log.error(e.getMessage());
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
 
+	/**
+	 * Add feed item to DB
+	 * 
+	 * @param List<FeedItem>
+	 * @return
+	 */
 	private void addFeed(List<FeedItem> items) {
 		items.forEach(
 				item -> {
@@ -51,6 +67,11 @@ public class RSSFeedReaderService {
 				});
 	}
 
+	/**
+	 * Parse RSS
+	 *
+	 * @return
+	 */
 	private SyndFeed readRss() throws FeedException, IOException {
 		
 		URL url = new URL(RSS_SOURCE);

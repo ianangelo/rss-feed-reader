@@ -26,7 +26,4 @@ public class RSSFeedReaderController {
 		return readerService.getFeedList();
 	}
 	
-//	@RequestMapping(
-//			value = "/")
-
 }

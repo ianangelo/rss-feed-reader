@@ -28,7 +28,7 @@ public class UserReviewsController {
 	}
 	
 	@RequestMapping(
-			value = "/submit-reviews",
+			value = "/submit-review",
 			method = RequestMethod.POST,
 			produces = { "application/json" }
 			)
