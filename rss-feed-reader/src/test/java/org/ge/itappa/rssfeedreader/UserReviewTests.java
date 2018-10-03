@@ -1,6 +1,7 @@
 package org.ge.itappa.rssfeedreader;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.ge.itappa.RssFeedReaderApplication;
@@ -48,12 +49,26 @@ public class UserReviewTests {
 	
 	@Test
 	public void testControllerPost() {
-		Response response = RestAssured.when().get("/submit-review");
+		
+		Response response = RestAssured.when().post("/submit-review?"
+				+ "username=testUser&reviewContent=Test Content");
 		String jsonResponse = response.asString();
 		log.info(jsonResponse);
 		log.info(response.contentType());
 		assertNotNull(jsonResponse);
 		assertEquals("Expected: 200 HTTP Status", HttpStatus.OK.value(), response.statusCode());
+		
+	}
+	
+	@Test
+	public void testControllerPostNegative() {
+		
+		Response response = RestAssured.when().get("/submit-review");
+		String jsonResponse = response.asString();
+		log.info(jsonResponse);
+		log.info(response.contentType());
+		assertNotNull(jsonResponse);
+		assertNotEquals("Not Expected: 200 HTTP Status", HttpStatus.OK.value(), response.statusCode());
 		
 	}
 
